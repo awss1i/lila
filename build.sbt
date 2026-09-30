@@ -10,8 +10,8 @@ import Dependencies.*
 // rather than wiring up packaging we don't ship.
 Global / lintUnusedKeysOnLoad := false
 
-// Remote build cache using Depot. DEPOT_TOKEN is set for CI builds
-val depotToken = sys.env.get("DEPOT_TOKEN").filter(_.nonEmpty)
+// Remote build cache using Depot
+val depotToken = sys.env.get("DEPOT_CACHE_TOKEN").filter(_.nonEmpty)
 Global / remoteCache := depotToken.map(_ => uri("grpcs://cache.depot.dev"))
 Global / remoteCacheHeaders ++= depotToken.map(t => s"authorization=$t").toSeq
 
