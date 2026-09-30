@@ -10,6 +10,10 @@ import Dependencies.*
 // rather than wiring up packaging we don't ship.
 Global / lintUnusedKeysOnLoad := false
 
+val depotToken = sys.env.get("DEPOT_TOKEN").filter(_.nonEmpty)
+Global / remoteCache := depotToken.map(_ => uri("grpcs://cache.depot.dev"))
+Global / remoteCacheHeaders ++= depotToken.map(t => s"authorization=$t").toSeq
+
 lazy val root = Project("lila", file("."))
   .enablePlugins(JavaServerAppPackaging, RoutesCompiler)
   .dependsOn(api)

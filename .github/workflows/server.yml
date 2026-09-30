@@ -50,6 +50,8 @@ jobs:
         uses: sbt/setup-sbt@1a9b426537af6542b494d3fa96cef6f3e60da4f5 # v1.5.11
       - run: TZ=UTC git log -1 --date=iso-strict-local --pretty='format:app.version.commit = "%H"%napp.version.date = "%ad"' | tee conf/version.conf
       - run: ./lila.sh -Depoll=true "test;stage"
+        env:
+          DEPOT_TOKEN: ${{ secrets.DEPOT_TOKEN }}
       - run: cp LICENSE COPYING.md README.md target/universal/stage && git log -n 1 --pretty=oneline > target/universal/stage/commit.txt
       - run: cd target/universal/stage && tar --zstd -cvpf ../../../lila-3.0.tar.zst . && cd -
         env:
